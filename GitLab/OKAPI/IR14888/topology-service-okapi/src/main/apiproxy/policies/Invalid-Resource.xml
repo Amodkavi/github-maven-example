@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="Invalid-Resource">
+    <DisplayName>Invalid Resource</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <StatusCode>403</StatusCode>
+            <Payload contentType="application/json">\{"fault":{"faultstring":"Unexpected URI and Method requested", "detail":{"errorcode": "proxyEndpoint.flows.conditions.invalidResource"}}}</Payload>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

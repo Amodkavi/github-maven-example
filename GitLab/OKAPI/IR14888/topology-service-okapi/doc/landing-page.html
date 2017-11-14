@@ -1,0 +1,22 @@
+<h1>Topology Service API</h1>
+
+<p>The topology-service API provides the capability for client applications to query Telstra's Network Inventory systems
+to retrieve network topologies (graphs) and explore the elements of the graph in further detail.</p>
+
+<p>The network details returned can then be used by the client application to call other network domain services to
+perform further OAM (operations, administration and management) actions on the underlying network, such as executing
+service or device / port testing in the network.</p>
+
+<h1>Frequently Asked Questions</h1>
+
+<p><strong>Q: Who are allowed to call the Topology API?</strong><br />
+
+A: Any internal Telstra application should be able to invoke the API as long as it is registered as a valid consumer for the API.
+To access this API, please email us at t.dev@team.telstra.com, we will share the client credentials after registering the
+application as a consumer of the API.</p>
+
+<p><strong>Q: Which authorization protocol will used for enabling access to Topology API?</strong><br />
+
+A: OAuth authorization protocol has been used for enabling access to the topology API. OAuth is an authorization protocol
+that enables apps to access information on behalf of users without requiring users to divulge their username and password.
+The OAuth 2.0 specification defines different ways of creating access tokens for apps.</p>

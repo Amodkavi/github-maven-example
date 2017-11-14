@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>au.com.telstra</groupId>
+        <artifactId>okapi-simple-proxy-pom</artifactId>
+        <version>1.1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>okapi-topology-service</artifactId>
+    <version>2.0.4-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Internal Releases</name>
+            <url>https://bar.okapi-np.in.telstra.com.au/content/repositories/${project.artifactId}-repo/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Internal Snapshots</name>
+            <url>https://bar.okapi-np.in.telstra.com.au/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <scm>
+        <connection>scm:git:git@git.okapi-np.in.telstra.com.au:Leach/topology-service-okapi.git</connection>
+        <developerConnection>git@git.okapi-np.in.telstra.com.au:Leach/topology-service-okapi.git</developerConnection>
+        <url>https://git.okapi-np.in.telstra.com.au/Leach/topology-service-okapi</url>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>Internal Nexus Releases Repo</name>
+            <url>https://bar.okapi-np.in.telstra.com.au/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <name>Internal Nexus Releases Repo</name>
+            <url>https://bar.okapi-np.in.telstra.com.au/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+</project>

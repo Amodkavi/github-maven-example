@@ -1,0 +1,63 @@
+{
+    "configurations": [
+        {
+            "name": "free",
+            "policies": [],
+            "proxies": [
+                {
+                    "name": "default.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/ProxyEndpoint/HTTPProxyConnection/VirtualHost",
+                            "value": "default"
+                        }
+                    ]
+                }
+            ],
+            "targets": []
+        },
+        {
+            "name": "pub",
+            "policies": [],
+            "proxies": [
+                {
+                    "name": "default.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/ProxyEndpoint/HTTPProxyConnection/VirtualHost",
+                            "value": "telstra"
+                        }
+                    ]
+                }
+            ],
+            "targets": []
+        },
+        {
+            "name": "priv",
+            "policies": [],
+            "proxies": [
+                {
+                    "name": "default.xml",
+                    "tokens": [
+                        {
+                            "xpath": "/ProxyEndpoint/HTTPProxyConnection/VirtualHost",
+                            "value": "telstra"
+                        }
+                    ]
+                }
+            ],
+            "targets": []
+        },
+        {
+            "name": "dev",
+            "policies": [],
+            "proxies": [
+                {
+                    "name": "default.xml",
+                    "tokens": []
+                }
+            ],
+            "targets": []
+        }
+    ]
+}

@@ -1,0 +1,79 @@
+<div class="row">
+    <section>
+        <a name="introduction"></a>
+	<h4>Introduction</h4>
+    </section>
+
+    <section>
+        <a name="authentication"></a>
+	<h4>Authentication</h4>
+
+	<p>To get an OAuth 2.0 Authentication token, pass through your Consumer Key and Consumer Secret that you received
+	when you registered for the token-service API key. The grant_type should be left as &lsquo;client_credentials&rsquo; and the
+	scope as 'TOPOLOGYREAD'. The token will expire in one hour.</p>
+    </section>
+
+    <h5>Request</h5>
+    <script src="https://gist.github.com/telstraapigist/53ed1971ebde7c488d69.js"></script>
+    <h5>Response</h5>
+    <script src="https://gist.github.com/telstraapigist/58f0fa9f1fd7d58369ed.js"></script>
+
+    <section>
+        <a name="getTopologies"></a>
+	<h4>Get topology</h4>
+
+	<p>The service topology can be retrieved via the <i>/topologies</i> resource by specifying the <i>serviceId</i>.
+	When the provided service can be located, the associated topology will be returned as a HTTP 200 response, otherwise
+    one of the below status codes will be returned to indicate the result.</p>
+
+    <p>The topology data is returned as per the type defined in the swagger.</p>
+    </section>
+
+    <section>
+        <a name="http-status"></a>
+        <h4>HTTP Status Codes</h4>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Status Code</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>200 OK</td>
+                    <td>Successful request</td>
+                </tr>
+                <tr>
+                    <td>400 Bad Request</td>
+                    <td>Invalid or missing request parameters</td>
+                </tr>
+                <tr>
+                    <td>401 Unauthorized</td>
+                    <td>Invalid or no credentials passed in the request</td>
+                </tr>
+                <tr>
+                    <td>403 Forbidden</td>
+                    <td>Authorization credentials passed and accepted but account does not have permission</td>
+                </tr>
+                <tr>
+                    <td>404 Not Found</td>
+                    <td>The requested URI does not exist</td>
+                </tr>
+                <tr>
+                    <td>500 Internal Server</td>
+                    <td>An internal error occurred when processing the request</td>
+                </tr>
+                <tr>
+                    <td>501 Method Not Implemented</td>
+                    <td>The HTTP method being used has not yet been implemented for the requested resource</td>
+                </tr>
+                <tr>
+                    <td>503 Service Unavailable</td>
+                    <td>The service requested is currently unavailable</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

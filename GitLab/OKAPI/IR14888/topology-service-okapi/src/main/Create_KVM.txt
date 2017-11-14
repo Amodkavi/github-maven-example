@@ -1,0 +1,19 @@
+POST /v1/organizations/org003/apis/topology-service/keyvaluemaps HTTP/1.1
+Host: api.admin.okapi-np.in.telstra.com.au
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: 2037e5f8-c030-94e2-fce6-11399ce7f375
+{   
+ "name" : "topology_service_kvm",
+"encrypted" : "true",
+"entry" : [
+  {
+   "name" : "cramer_li_basic_auth_user_id",
+   "value" : "n106361"
+  },
+  {
+   "name" : "cramer_li_basic_auth_password",
+   "value" : "crmAPI01Test"
+  } 
+ ]
+}

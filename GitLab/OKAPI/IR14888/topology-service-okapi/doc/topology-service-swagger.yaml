@@ -1,0 +1,625 @@
+swagger: '2.0'
+info:
+  title: API0310 - Topology Service API
+  description: >-
+    This is the topology-service API that provides the ability to fetch service
+    topologies.
+  version: 1.0.0
+  termsOfService: 'https://dev.telstra.com/legal'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: api.in.telstra.com.au
+basePath: /v1/topology-service
+schemes:
+  - https
+paths:
+  /topologies:
+    get:
+      operationId: getTopologies
+      summary: Get the service topologies
+      description: |
+        Use the service ID to fetch a service topology.
+      produces:
+        - application/json
+      parameters:
+        - name: serviceId
+          in: query
+          description: Unique identifier of a service
+          required: true
+          type: string
+      tags:
+        - Topologies
+      security:
+        - OauthSecurity:
+            - TOPOLOGYREAD
+      responses:
+        '200':
+          description: Success - the service topology is returned
+          schema:
+            properties:
+              topologies:
+                $ref: '#/definitions/Topologies'
+        '400':
+          description: Invalid or missing request parameters
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        '401':
+          description: Invalid or no credentials passed in the request
+          schema:
+            $ref: '#/definitions/Fault'
+        '403':
+          description: >-
+            Authorization credentials passed and accepted but account does not
+            have permission
+          schema:
+            $ref: '#/definitions/Fault'
+        '404':
+          description: The requested URI does not exist
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        '500':
+          description: An internal error occurred when processing the request
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        '503':
+          description: The service requested is currently unavailable
+          schema:
+            $ref: '#/definitions/Fault'
+        '504':
+          description: Gateway timeout.
+          schema:
+            $ref: '#/definitions/Fault'
+securityDefinitions:
+  OauthSecurity:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.in.telstra.com.au/v1/oauth/token'
+    tokenUrl: 'https://api.in.telstra.com.au/v1/oauth/token'
+    scopes:
+      TOPOLOGYREAD: OAuth scope for the topology-service API
+definitions:
+  Topologies:
+    type: array
+    items:
+      $ref: '#/definitions/TopologyGraph'
+  TopologyGraph:
+    type: object
+    properties:
+      nodes:
+        type: array
+        description: Nodes in the topology
+        items:
+          $ref: '#/definitions/Node'
+      relationships:
+        type: array
+        description: Relationships between the nodes in the topology
+        items:
+          $ref: '#/definitions/Relationship'
+    required:
+      - nodes
+      - relationships
+  Node:
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+        enum:
+          - SERVICE
+          - PORT
+          - DEVICE
+          - TOPOLOGY
+          - LOGICAL_PORT
+      service:
+        $ref: '#/definitions/Service'
+      port:
+        $ref: '#/definitions/Port'
+      device:
+        $ref: '#/definitions/Device'
+      Topology:
+        $ref: '#/definitions/Topology'
+      logicalPort:
+        $ref: '#/definitions/LogicalPort'
+    required:
+      - id
+      - type
+  Relationship:
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+        enum:
+          - INCLUDES
+          - USES
+          - INTERFACES
+          - CONNECTS_TO
+          - MONITORS
+      startNode:
+        type: string
+      endNode:
+        type: string
+      sequence:
+        type: string
+      digitalCircuitId:
+        type: string
+      connectionType:
+        description: required for CONNECTS_TO & MONITORS
+        type: string
+        enum:
+          - LINK
+          - CIRCUIT
+          - PERF_MGMT
+      link:
+        $ref: '#/definitions/Link'
+      circuit:
+        $ref: '#/definitions/Circuit'
+      perfMgmt:
+        $ref: '#/definitions/PerformanceManagement'
+    required:
+      - id
+      - type
+      - startNode
+      - endNode
+  Service:
+    type: object
+    properties:
+      type:
+        type: string
+        enum:
+          - EIS_EVC_SERVICE
+          - EIS_UNI_SERVICE
+          - EIS_BDSL_UNI_SERVICE
+      name:
+        type: string
+      provisionStatus:
+        type: string
+        enum:
+          - CREATED
+          - ACTIVE
+          - IN_PROGRESS
+          - DISCONTINUED
+          - CANCELLED
+      useStatus:
+        type: string
+        enum:
+          - UNDERGOING_CHANGE
+          - RESERVED
+      eisEvcService:
+        $ref: '#/definitions/EisEvcService'
+      eisUniService:
+        $ref: '#/definitions/EisUniService'
+      eisBdslUniService:
+        $ref: '#/definitions/EisBdslUniService'
+    required:
+      - type
+      - name
+      - provisionStatus
+  Port:
+    type: object
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+      provisionStatus:
+        type: string
+        enum:
+          - IN_SERVICE
+          - INSTALLED
+          - RETIRED
+          - PLANNED
+          - DESIGN_APPROVED
+          - BUILT_INSTALLED
+          - PENDING_DECOMISSIONING
+          - DECOMISSIONED
+          - LEFT_IN_SITU
+          - UNAVAILABLE
+      relativeName:
+        type: string
+      frontOfBoxId:
+        type: string
+      role:
+        type: string
+        enum:
+          - ACCESS
+          - BACKBONE
+          - MANAGEMENT
+          - INFRASTRUCTURE
+    required:
+      - name
+      - provisionStatus
+      - relativeName
+      - frontOfBoxId
+      - role
+  LogicalPort:
+    type: object
+    properties:
+      type:
+        type: string
+      name:
+        type: string
+      provisionStatus:
+        type: string
+        enum:
+          - IN_SERVICE
+          - INSTALLED
+          - RETIRED
+          - PLANNED
+          - DESIGN_APPROVED
+          - BUILT_INSTALLED
+          - PENDING_DECOMISSIONING
+          - DECOMISSIONED
+          - LEFT_IN_SITU
+          - UNAVAILABLE
+      useStatus:
+        type: string
+      atmVcInterfaceT:
+        $ref: '#/definitions/AtmVcInterfaceT'
+      vlanInterfaceT:
+        $ref: '#/definitions/VlanInterfaceT'
+    required:
+      - type
+      - name
+      - provisionStatus
+      - useStatus
+  Device:
+    type: object
+    properties:
+      type:
+        type: string
+        enum:
+          - MRV900_DEVICE
+          - NETWORK_DEVICE
+          - MRV9000_DEVICE
+          - SDH_DEVICE
+      model:
+        $ref: '#/definitions/DeviceModel'
+      name:
+        type: string
+      provisionStatus:
+        type: string
+        enum:
+          - IN_SERVICE
+          - PLANNED
+          - DESIGN_APPROVED
+          - BUILT_INSTALLED
+          - PENDING_DECOMISSIONING
+          - DECOMISSIONED
+          - LEFT_IN_SITU
+          - UNAVAILABLE
+      elementId:
+        type: string
+      networkType:
+        type: string
+        enum:
+          - EIS_NTU
+          - SEP
+          - MSE
+      mrv900Device:
+        $ref: '#/definitions/Mrv900Device'
+      networkDevice:
+        $ref: '#/definitions/NetworkDevice'
+      mrv9000Device:
+        $ref: '#/definitions/Mrv9000Device'
+    required:
+      - type
+      - model
+      - name
+      - provisionStatus
+      - elementId
+      - networkType
+  EisEvcService:
+    type: object
+    properties:
+      evcId:
+        type: string
+      type:
+        type: string
+        enum:
+          - EVC
+          - OVC
+      redundancyRole:
+        type: string
+        enum:
+          - PRIMARY
+          - BACKUP
+      maintenanceAssociation:
+        $ref: '#/definitions/MaintenanceAssociation'
+      ceVlanIdListAEnd:
+        type: string
+      ceVlanIdListZEnd:
+        type: string
+      cosType:
+        type: string
+      titanClassCombination:
+        type: string
+      pir:
+        type: string
+    required:
+      - evcId
+  EisUniService:
+    type: object
+    properties:
+      type:
+        type: string
+        enum:
+          - UNI
+          - ENNI
+      fnn:
+        type: string
+      accessType:
+        type: string
+        enum:
+          - DIRECT_SINGLE_UPLINK
+          - AGGREGATE_SINGLE_UPLINK
+          - DIRECT_FULLY_REDUNDANT
+          - DIRECT_SINGLE_UPLINK_VIA_EOSDH
+          - AGGREGATE_SINGLE_UPLINK_VIA_EOSDH
+          - AGGREGATE_FULLY_REDUNDANT
+      redundancyRole:
+        type: string
+        enum:
+          - PRIMARY
+          - BACKUP
+    required:
+      - fnn
+      - accessType
+      - redundancyRole
+  EisBdslUniService:
+    type: object
+    properties:
+      fnn:
+        type: string
+      redundancyRole:
+        type: string
+        enum:
+          - PRIMARY
+    required:
+      - fnn
+      - redundancyRole
+  MaintenanceAssociation:
+    type: object
+    properties:
+      id:
+        type: string
+      maintenanceDomainLevel:
+        type: string
+        enum:
+          - '0'
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+    required:
+      - id
+      - maintenanceDomainLevel
+  Mrv900Device:
+    type: object
+    properties:
+      backboneAccessTopology:
+        type: string
+      role:
+        type: string
+        enum:
+          - EIS_NTU_SINGLE_TENANT_ONLY
+    required:
+      - backboneAccessTopology
+  Mrv9000Device:
+    type: object
+    properties:
+      backboneAccessTopology:
+        type: string
+      role:
+        type: string
+    required:
+      - backboneAccessTopology
+  NetworkDevice:
+    type: object
+    properties:
+      role:
+        type: string
+        enum:
+          - L2PE_ROUTER
+          - TYPE_2
+    required:
+      - role
+  DeviceModel:
+    type: object
+    properties:
+      subType:
+        type: string
+    required:
+      - subType
+  Link:
+    type: object
+    properties:
+      type:
+        type: string
+        enum:
+          - FIBRE
+          - COPPER
+      name:
+        type: string
+      provisionStatus:
+        type: string
+        enum:
+          - IN_SERVICE
+          - DESIGN_APPROVED
+          - PLANNED
+          - IN_PROGRESS
+          - ACTIVE
+      tracId:
+        type: string
+      aEndLagId:
+        type: string
+      zEndLagId:
+        type: string
+    required:
+      - type
+      - name
+      - provisionStatus
+      - tracId
+  Circuit:
+    type: object
+    properties:
+      type:
+        type: string
+        enum:
+          - PW_ROUTED_PATH
+          - GFP_TRAC
+      name:
+        type: string
+      provisionStatus:
+        type: string
+        enum:
+          - IN_SERVICE
+      redundancyRole:
+        type: string
+        enum:
+          - PRIMARY
+          - BACKUP
+      gfpTrac:
+        $ref: '#/definitions/GfpTrac'
+      pwRoutedPath:
+        $ref: '#/definitions/PwRoutedPath'
+    required:
+      - type
+      - name
+      - provisionStatus
+  PerformanceManagement:
+    type: object
+    properties:
+      mepType:
+        type: string
+        enum:
+          - CCM
+      cosName:
+        type: string
+        enum:
+          - TC_PREMIUM
+      localMepId:
+        type: string
+      remoteMepId:
+        type: string
+    required:
+      - mepType
+      - cosName
+      - localMepId
+      - remoteMepId
+  ErrorMessage:
+    type: object
+    properties:
+      status:
+        type: integer
+      code:
+        type: integer
+      message:
+        type: string
+    required:
+      - status
+      - code
+      - message
+    example:
+      status: 404
+      code: 40401
+      message: Could not find requested service
+  Fault:
+    type: object
+    properties:
+      faultstring:
+        type: string
+      detail:
+        $ref: '#/definitions/FaultDetail'
+    required:
+      - faultstring
+      - detail
+    example:
+      fault:
+        faultstring: Invalid access token
+        detail:
+          errorcode: oauth.v2.InvalidAccessToken
+  FaultDetail:
+    type: object
+    properties:
+      errorcode:
+        type: string
+    required:
+      - errorcode
+  AtmVcInterfaceT:
+    type: object
+    properties:
+      vpi:
+        type: string
+      vci:
+        type: string
+  VlanInterfaceT:
+    type: object
+    properties:
+      vlanFunction:
+        type: string
+        enum:
+          - INTERNAL
+          - MANAGEMENT
+          - ASSURANCE
+          - S_VLAN
+          - CE_VLAN
+          - PRIMARY
+          - BACKUP
+      vlanId:
+        type: string
+  Topology:
+    type: object
+    properties:
+      type:
+        type: string
+      name:
+        type: string
+      provisionStatus:
+        type: string
+      useStatus:
+        type: string
+        enum:
+          - RESERVED
+      behaviour:
+        type: string
+        enum:
+          - RING
+          - LINEAR_CHAIN
+          - INTERCONNECT
+          - DEVICE_SET
+          - TOPOLOGY_SET
+          - DEVICE_MESH
+          - TOPOLOGY_MESH
+      eisVplsTopology:
+        $ref: '#/definitions/EisVplsTopology'
+  EisVplsTopology:
+    type: object
+    properties:
+      vcId:
+        type: string
+      function:
+        type: string
+        enum:
+          - BACKHAUL
+          - MANAGEMENT
+  GfpTrac:
+    type: object
+    properties:
+      tracId:
+        type: string
+      digitalCircuitId:
+        type: string
+  PwRoutedPath:
+    type: object
+    properties:
+      vcId:
+        type: string
+      redundancyRole:
+        type: string

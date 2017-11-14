@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="64" name="topology-service">
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1510546988342</CreatedAt>
+    <CreatedBy>prajwal.hegde@team.telstra.com</CreatedBy>
+    <Description>OKAPI proxy for topology-service REST API.</Description>
+    <DisplayName>topology-service</DisplayName>
+    <LastModifiedAt>1510551101540</LastModifiedAt>
+    <LastModifiedBy>prajwal.hegde@team.telstra.com</LastModifiedBy>
+    <Policies>
+        <Policy>ApplyBasicAuthHeader</Policy>
+        <Policy>Get-CRAMER-LI-Basic-Auth-Password</Policy>
+        <Policy>Get-CRAMER-LI-Basic-Auth-User-Id</Policy>
+        <Policy>IP-Whitelist</Policy>
+        <Policy>Invalid-Resource</Policy>
+        <Policy>Quota</Policy>
+        <Policy>Spike-Arrest</Policy>
+        <Policy>StripTarget</Policy>
+        <Policy>TransformDeleteServiceRequest</Policy>
+        <Policy>TransformGetServiceResponse</Policy>
+        <Policy>TransformGraph</Policy>
+        <Policy>TransformServiceRequest</Policy>
+        <Policy>TransformServiceResponse</Policy>
+        <Policy>Verify-OAuth-v20-Access-Token-Read</Policy>
+        <Policy>Verify-OAuth-v20-Access-Token-Write</Policy>
+        <Policy>remove-header-authorization</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>jsc://TransformDeleteServiceRequest.js</Resource>
+        <Resource>jsc://TransformGetServiceResponse.js</Resource>
+        <Resource>jsc://TransformServiceRequest.js</Resource>
+        <Resource>jsc://TransformServiceResponse.js</Resource>
+        <Resource>jsc://transform.js</Resource>
+    </Resources>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>Services</TargetEndpoint>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+    <validate>false</validate>
+</APIProxy>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AccessControl async="false" continueOnError="false" enabled="true" name="IP-Whitelist">
+    <DisplayName>IP Whitelist</DisplayName>
+    <!-- This policy contains the IP Whitelist of client applications approved to use the API-->
+    <Properties/>
+    <IPRules noRuleMatchAction="DENY">
+        <MatchRule action="ALLOW">
+            <!-- T&DM - Model Environments-->
+            <SourceAddress mask="32">172.85.13.50</SourceAddress>
+            <SourceAddress mask="32">172.85.13.52</SourceAddress>
+            <SourceAddress mask="32">172.85.13.53</SourceAddress>
+            <SourceAddress mask="32">172.85.13.54</SourceAddress>
+            <SourceAddress mask="32">172.85.13.55</SourceAddress>
+            <SourceAddress mask="32">172.85.13.57</SourceAddress>
+            <SourceAddress mask="32">172.85.13.112</SourceAddress>
+            <SourceAddress mask="32">172.85.13.116</SourceAddress>
+            <SourceAddress mask="32">172.85.13.115</SourceAddress>
+            <SourceAddress mask="32">172.85.13.117</SourceAddress>
+            <!-- T&DM - Production A-->
+            <SourceAddress mask="32">144.131.84.34</SourceAddress>
+            <SourceAddress mask="32">144.131.84.36</SourceAddress>
+            <SourceAddress mask="32">144.131.84.37</SourceAddress>
+            <!-- T&DM - Production B-->
+            <SourceAddress mask="32">144.131.84.62</SourceAddress>
+            <SourceAddress mask="32">144.131.84.199</SourceAddress>
+            <!-- TOP Non-Production and Production Range -->
+            <SourceAddress mask="24">172.18.15.0</SourceAddress>
+            <!-- OM-FUL - CAT -->
+            <SourceAddress mask="32">10.118.208.4</SourceAddress>
+            <SourceAddress mask="32">10.118.208.7</SourceAddress>
+            <SourceAddress mask="32">10.118.208.71</SourceAddress>
+            <!-- Support Team Test Servers - W0000071500457 and W00000PC0MLRDE -->
+            <SourceAddress mask="32">144.136.246.40</SourceAddress>
+            <SourceAddress mask="32">144.136.246.185</SourceAddress>
+        </MatchRule>
+    </IPRules>
+</AccessControl>

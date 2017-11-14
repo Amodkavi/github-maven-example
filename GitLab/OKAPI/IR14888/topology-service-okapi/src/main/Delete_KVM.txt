@@ -1,0 +1,5 @@
+DELETE /v1/organizations/org003/apis/topology-service/keyvaluemaps/topology_service_kvm HTTP/1.1
+Host: api.admin.okapi-np.in.telstra.com.au
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: 9a92f0ab-b359-eac1-da63-d4667331e88f

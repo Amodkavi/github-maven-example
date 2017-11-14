@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OAuthV2 async="false" continueOnError="false" enabled="true" name="Verify-OAuth-v20-Access-Token-Write">
+    <DisplayName>Verify OAuth v2.0 Access Token Write</DisplayName>
+    <Properties/>
+    <Attributes/>
+    <ExternalAuthorization>false</ExternalAuthorization>
+    <Operation>VerifyAccessToken</Operation>
+    <SupportedGrantTypes/>
+    <Scope>TOPOLOGYWRITE</Scope>
+    <GenerateResponse enabled="true"/>
+    <Tokens/>
+</OAuthV2>

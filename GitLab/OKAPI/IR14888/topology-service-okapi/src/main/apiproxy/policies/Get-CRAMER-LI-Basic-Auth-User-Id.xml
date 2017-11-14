@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true" name="Get-CRAMER-LI-Basic-Auth-User-Id" mapIdentifier="topology_service_kvm">
+    <DisplayName>Get CRAMER-LI Basic Auth User Id</DisplayName>
+    <Properties/>
+    <Scope>apiproxy</Scope>
+    <ExpiryTimeInSecs>3600</ExpiryTimeInSecs>
+    <Get assignTo="private.cramer_li.credentials.username" index="1">
+        <Key>
+            <Parameter>cramer_li_basic_auth_user_id</Parameter>
+        </Key>
+    </Get>
+</KeyValueMapOperations>

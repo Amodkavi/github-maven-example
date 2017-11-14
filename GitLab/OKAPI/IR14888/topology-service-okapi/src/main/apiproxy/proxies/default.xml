@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <Description/>
+    <FaultRules/>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>Quota</Name>
+            </Step>
+            <Step>
+                <Name>Spike-Arrest</Name>
+            </Step>
+            <Step>
+                <Name>IP-Whitelist</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <PostFlow name="PostFlow">
+        <Request>
+            <Step>
+                <Name>remove-header-authorization</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PostFlow>
+    <Flows>
+        <Flow name="getTopologies">
+            <Description>Get a service topologies</Description>
+            <Request>
+                <Step>
+                    <Name>Verify-OAuth-v20-Access-Token-Read</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>TransformGraph</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/topologies") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="postService">
+            <Description>Creates the network topology for a Service.</Description>
+            <Request>
+                <Step>
+                    <Name>Verify-OAuth-v20-Access-Token-Write</Name>
+                </Step>
+                <Step>
+                    <Name>TransformServiceRequest</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>TransformServiceResponse</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/services") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="putService">
+            <Description>Updates the network topology for a Service.</Description>
+            <Request>
+                <Step>
+                    <Name>Verify-OAuth-v20-Access-Token-Write</Name>
+                </Step>
+                <Step>
+                    <Name>TransformServiceRequest</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>TransformServiceResponse</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/services/*") and (request.verb = "PUT")</Condition>
+        </Flow>
+        <Flow name="deleteService">
+            <Description>Deletes the network topology for a Service.</Description>
+            <Request>
+                <Step>
+                    <Name>Verify-OAuth-v20-Access-Token-Write</Name>
+                </Step>
+                <Step>
+                    <Name>TransformDeleteServiceRequest</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>TransformServiceResponse</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/services/*") and (request.verb = "DELETE")</Condition>
+        </Flow>
+        <Flow name="getService">
+            <Description>Retrieves the network topology for a Service.</Description>
+            <Request>
+                <Step>
+                    <Name>Verify-OAuth-v20-Access-Token-Read</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>TransformGetServiceResponse</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/services/*") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="invalidResource">
+            <Description>Invalid Resource</Description>
+            <Request>
+                <Step>
+                    <Name>Invalid-Resource</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition/>
+        </Flow>
+    </Flows>
+    <HTTPProxyConnection>
+        <BasePath>/v1/topology-service</BasePath>
+        <Properties/>
+        <VirtualHost>secure</VirtualHost>
+        <VirtualHost>secure_massl</VirtualHost>
+        <VirtualHost>telstra</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="postService">
+        <Condition>(proxy.pathsuffix MatchesPath "/services") and (request.verb = "POST")</Condition>
+        <TargetEndpoint>Services</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="putService">
+        <Condition>(proxy.pathsuffix MatchesPath "/services/*") and (request.verb = "PUT")</Condition>
+        <TargetEndpoint>Services</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="deleteService">
+        <Condition>(proxy.pathsuffix MatchesPath "/services/*") and (request.verb = "DELETE")</Condition>
+        <TargetEndpoint>Services</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="getService">
+        <Condition>(proxy.pathsuffix MatchesPath "/services/*") and (request.verb = "GET")</Condition>
+        <TargetEndpoint>Services</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="default">
+        <TargetEndpoint>default</TargetEndpoint>
+    </RouteRule>
+</ProxyEndpoint>
